@@ -212,7 +212,7 @@ function installManifestUrl(manifestUrl) {
 }
 
 function installManifest(manifestUrl, webapp, installOrigin) {
-  let origin = manifestUrl.toString().replace(/([^\/])\/[^\/].*/, "$1");
+  let origin = manifestUrl.toString().substring(0, manifestUrl.toString().lastIndexOf(manifestUrl.path));
   if (!installOrigin) {
     installOrigin = origin
   }
@@ -279,7 +279,7 @@ ContextMenu.Item({
                  '  self.postMessage(node.href)' +
                  '});',
   onMessage: function (manifestUrl) {
-    installManifestUrl(manifestUrl);
+    installManifestUrl(URL.URL(manifestUrl));
   }
 });
 
