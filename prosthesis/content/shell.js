@@ -15,3 +15,79 @@ document.getElementById("homeButton").addEventListener("mouseup", function() {
                      event.DOM_VK_HOME, 0);
   window.dispatchEvent(event);
 }, false);
+
+var preventMouseEvents = true;
+
+document.getElementById("shell").addEventListener("mousedown", function(event) {
+  var target = event.originalTarget;
+  var view = target.ownerDocument.defaultView;
+
+  var touch = document.createTouch(
+    view, target, 0,
+    event.clientX, event.clientY, event.clientX, event.clientY,
+    1, 1, 0, 0
+  );
+  var touches = document.createTouchList(touch);
+  var touchEvent = document.createEvent('TouchEvent');
+  touchEvent.initTouchEvent('touchstart',
+    true, true,
+    view, 0,
+    false, false, false, false, touches, touches, touches, 1, 0);
+
+  target.dispatchEvent(touchEvent);
+
+  if (touchEvent.defaultPrevented || preventMouseEvents) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+}, false);
+
+document.getElementById("shell").addEventListener("mousemove", function(event) {
+  var target = event.originalTarget;
+  var view = target.ownerDocument.defaultView;
+
+  var touch = document.createTouch(
+    view, target, 0,
+    event.clientX, event.clientY, event.clientX, event.clientY,
+    1, 1, 0, 0
+  );
+  var touches = document.createTouchList(touch);
+  var touchEvent = document.createEvent('TouchEvent');
+  touchEvent.initTouchEvent('touchmove',
+    true, true,
+    view, 0,
+    false, false, false, false, touches, touches, touches, 1, 0);
+
+  target.dispatchEvent(touchEvent);
+
+  if (touchEvent.defaultPrevented || preventMouseEvents) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+}, false);
+
+
+document.getElementById("shell").addEventListener("mouseup", function(event) {
+  var target = event.originalTarget;
+  var view = target.ownerDocument.defaultView;
+
+  var touch = document.createTouch(
+    view, target, 0,
+    event.clientX, event.clientY, event.clientX, event.clientY,
+    1, 1, 0, 0
+  );
+  var touches = document.createTouchList(touch);
+  var touchEvent = document.createEvent('TouchEvent');
+  touchEvent.initTouchEvent('touchend',
+    true, true,
+    view, 0,
+    false, false, false, false, touches, touches, touches, 1, 0);
+
+  target.dispatchEvent(touchEvent);
+
+  if (touchEvent.defaultPrevented || preventMouseEvents) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+}, false);
+
