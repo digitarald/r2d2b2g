@@ -16,7 +16,7 @@ document.getElementById("homeButton").addEventListener("mouseup", function() {
   window.dispatchEvent(event);
 }, false);
 
-var preventMouseEvents = true;
+var preventMouseEvents = false;
 
 document.getElementById("shell").addEventListener("mousedown", function(event) {
   var target = event.originalTarget;
