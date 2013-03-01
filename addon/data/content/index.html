@@ -9,7 +9,7 @@
         <script src="js/vendor/modernizr-2.6.1.min.js"></script>
     </head>
     <body>
-        <aside class="beta">Alpha</aside>
+        <aside class="beta">Preview</aside>
         <article>
             <header>
                 <h1><strong>Firefox</strong> OS Simulator</h1>
@@ -29,10 +29,21 @@
                         <input type="checkbox" id="commands-preference-jsconsole" />Console
                     </label>
                     <label class="commands-options" style="display: none">
-                        Run:
-                        <span id="commands-preference-default-app"></span>
+                        <div id="show-debugger-port">
+                          Remote Debugger Port:
+                          <span id="commands-preference-remote-debugger-port"></span>
+                        </div>
+                        <button id="open-connect-devtools" title="Connect Developer Tools&hellip;"
+                                onclick="Simulator.openConnectDevtools()">Connect&hellip;</button>
+                    </label>
+                    <label class="commands-options" style="display: none">
+                      Run:
+                      <span id="commands-preference-default-app"></span>
+                    </label>
                 </fieldset>
-                <!--<small>B2G v0.8</small>-->
+                <h5 id="device-status" style="opacity: 0">
+                    <img src="device.png" alt="Device"> Device connected.
+                </h5>
                 <nav>
                     <ul>
                         <li><a href="#dashboard">Dashboard</a></li>
@@ -112,7 +123,7 @@
             </section>
         </article>
 
-        <script src="js/vendor/jquery-1.8.0.min.js"></script>
+        <script src="js/vendor/jquery-1.8.3.min.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
     </body>

@@ -1,4 +1,5 @@
 var Simulator = {
+  deviceConnected: null,
 
   APP_TYPES: {
     "local": "Packaged App",
@@ -69,13 +70,34 @@ var Simulator = {
         }
         console.log('Addon-message: ' + message.name);
         switch (message.name) {
+          case "deviceConnected":
+            Simulator.deviceConnected = message.value;
+            console.log("device " + (message.value ? "" : "dis") + "connected");
+            Simulator.updateDeviceView();
+            break;
           case "isRunning":
             $(Simulator.toggler).prop('indeterminate', false);
+            var remoteDebuggerPortEl = $('#commands-preference-remote-debugger-port');
             if (message.isRunning) {
               $(Simulator.toggler).prop('checked', true);
+              remoteDebuggerPortEl.html(message.remoteDebuggerPort);
+              remoteDebuggerPortEl.parents('label').show();
+              // NOTE: show connect devtools buttons where it's supported
+              //       and show allocated debugger port on previous firefox releases
+              if (message.hasConnectDevtools) {
+                $("#show-debugger-port").hide();
+                $("#open-connect-devtools").prop("disabled", false);
+                $("#open-connect-devtools").show();
+              } else {
+                $("#show-debugger-port").show();
+                $("#open-connect-devtools").hide();
+                $("#open-connect-devtools").prop("disabled", true);
+              }
             }
             else {
               $(Simulator.toggler).prop('checked', false);
+              $('#commands-preference-remote-debugger-port').html(message.remoteDebuggerPort);
+              remoteDebuggerPortEl.parents('label').hide();
             }
             break;
           case "listTabs":
@@ -140,6 +162,14 @@ var Simulator = {
                 note = "has been removed.";
               } else {
                 options.push(
+                  $("<button>")
+                    .addClass("pushButton")
+                    .append("<img src='device.png' height='14'> Push")
+                    .css("opacity", Simulator.deviceConnected ? 1 : 0)
+                    .click(function(evt) {
+                      window.postMessage({ name: "pushAppToDevice", id: id }, "*");
+                    })
+                    .prop("title", lastUpdate),
                   $("<a href='#'>")
                     .addClass("button")
                     .text("Remove")
@@ -152,7 +182,12 @@ var Simulator = {
                     .click(function(evt) {
                       window.postMessage({name: "updateApp", id: id}, "*");
                     })
-                    .prop("title", lastUpdate)
+                    .prop("title", lastUpdate),
+                  $("<button>")
+                    .text("Run")
+                    .click(function(evt) {
+                      window.postMessage({name: "runApp", id: id}, "*");
+                    })
                 );
                 // $("<label>").append(
                 //   $("<span>").text('Run by default:'),
@@ -201,10 +236,23 @@ var Simulator = {
     );
 
     window.postMessage({ name: "getIsRunning" }, "*");
+    window.postMessage({ name: "getDeviceConnected" }, "*");
     // Clears removed apps on reload
     window.postMessage({ name: "listApps", flush: true }, "*");
     window.postMessage({ name: "listTabs" }, "*");
     window.postMessage({ name: "getPreference" }, "*");
+  },
+
+  updateDeviceView: function() {
+    if (Simulator.deviceConnected) {
+      $('#device-status').fadeTo('slow', 1);
+      $('.pushButton').removeAttr('disabled');
+      $('.pushButton').fadeTo('slow', 1);
+    } else {
+      $('#device-status').fadeTo('slow', 0);
+      $('.pushButton').attr('disabled', 'disabled');
+      $('.pushButton').fadeTo('slow', 0);
+    }
   },
 
   show: function(target) {
@@ -226,12 +274,12 @@ var Simulator = {
     window.postMessage({ name: "toggle" }, "*");
   },
 
-  create: function() {
-    window.postMessage({ name: "create" }, "*");
-  },
-
   addAppByDirectory: function() {
     window.postMessage({ name: "addAppByDirectory" }, "*");
+  },
+
+  openConnectDevtools: function() {
+    window.postMessage({ name: "openConnectDevtools" }, "*");
   }
 
 };

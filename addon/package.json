@@ -1,21 +1,23 @@
 {
   "id": "r2d2b2g@mozilla.org",
   "name": "r2d2b2g",
-  "version": "0.8",
+  "version": "3.0pre2dev",
   "fullName": "Firefox OS Simulator",
   "description": "a Firefox OS simulator",
   "author": "Myk Melez (https://github.com/mykmelez)",
   "contributors": [
     "Anant Narayanan (https://github.com/anantn)",
+    "Fabrice Desré (https://github.com/fabricedesre)",
     "Harald Kirschner (https://github.com/digitarald)",
+    "Kan-Ru Chen (陳侃如) (https://github.com/kanru)",
+    "Luca Greco (https://github.com/rpl)",
     "Matthew Riley MacPherson (https://github.com/tofumatt)",
+    "Nick Desaulniers (https://github.com/nickdesaulniers)",
     "Victor Bjelkholm (https://github.com/VictorBjelkholm)"
   ],
   "license": "MPL 2.0",
   "unpack": true,
-  "dependencies": ["addon-kit",
-                   "api-utils",
-                   "gcli",
+  "dependencies": ["gcli",
                    "menuitems",
                    "subprocess",
                    "vold-utils"]
