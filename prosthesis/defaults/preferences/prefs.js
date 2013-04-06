@@ -13,3 +13,10 @@ user_pref("power.screen.timeout", 86400);
 
 // Enable remote debugging and other tools.
 user_pref("marionette.defaultPrefs.enabled", false);
+
+
+// Enable remote debugging and other tools.
+user_pref("marionette.defaultPrefs.enabled", false);
+
+// Testing why it doesn't work
+user_pref("dom.w3c_touch_events.enabled", 1);
